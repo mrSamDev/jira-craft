@@ -4,6 +4,7 @@ import { select, input } from "@inquirer/prompts";
 import { configureAll } from "./commands/config";
 import { displayOptions } from "./commands/display";
 import { startWork } from "./programs/start-work";
+import logger from "./utils/log";
 
 const program = new Command();
 
@@ -46,6 +47,20 @@ async function promptUserChoices(): Promise<void> {
   await promptUserChoices();
 }
 
-program.name("jira-craft").description("Interactive development workflow CLI").version("1.0.0").action(promptUserChoices);
+program.name("jiracraft").description("JIRA ticket to Git branch creation").version("1.0.0");
+
+program
+  .command("start-work [ticketId]")
+  .description("Start work on a JIRA ticket")
+  .action(async (ticketId) => {
+    try {
+      await startWork(ticketId);
+    } catch (error: any) {
+      logger.error(error.message);
+      process.exit(1);
+    }
+  });
+
+program.action(promptUserChoices);
 
 program.parse();
