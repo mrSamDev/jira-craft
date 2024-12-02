@@ -2,6 +2,7 @@ import { select, input, confirm } from "@inquirer/prompts";
 import { JiraService } from "../services/jira-service";
 import { GitService } from "../services/git-service";
 import { configManager } from "../utils/config.js";
+import type { Project } from "../types/index";
 import chalk from "chalk";
 import logger from "../utils/log";
 
@@ -14,7 +15,7 @@ const BRANCH_TYPES = {
   Hotfix: "hotfix",
 } as const;
 
-async function selectProject(projects: any[]) {
+async function selectProject(projects: Project[]) {
   if (projects.length === 0) {
     return null;
   }
@@ -56,7 +57,7 @@ export async function startWork(ticketId?: string): Promise<void> {
     logger.info("\nFetching JIRA issue details...");
     const issue = await jiraService.getIssue(ticketId);
 
-    let defaultType = BRANCH_TYPES[issue.issueType as keyof typeof BRANCH_TYPES] || "task";
+    let defaultType = issue.issueType ? gitService.toUrlFriendly(issue.issueType) : BRANCH_TYPES[issue.issueType as keyof typeof BRANCH_TYPES] || "task";
 
     logger.info("\nJIRA Issue Details:");
     logger.log(`Title    : ${issue.title}`);

@@ -30,7 +30,7 @@ export enum BranchNameStyle {
   TYPE_TICKET_TITLE = "issue-type/ticket-id/title",
 }
 
-interface Project {
+export interface Project {
   prefix?: string;
   branchNameStyle?: BranchNameStyle;
 }
