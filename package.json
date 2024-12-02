@@ -2,6 +2,7 @@
   "name": "jira-craft",
   "version": "1.0.0",
   "description": "Development workflow CLI for jira and git",
+  "type": "module",
   "main": "dist/cli.js",
   "bin": {
     "jc": "./dist/cli.js"
@@ -12,7 +13,7 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/cli.ts",
-    "dev": "ts-node src/cli.ts",
+    "dev": "node --loader ts-node/esm src/cli.ts",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "prepare": "npm run build"

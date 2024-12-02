@@ -1,6 +1,5 @@
-// src/commands/config.ts
 import { select, input } from "@inquirer/prompts";
-import { configManager } from "../utils/config";
+import { configManager } from "@utils/config";
 
 async function configureJira() {
   const jiraConfig = {

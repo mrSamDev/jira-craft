@@ -1,6 +1,6 @@
 import ky from "ky";
-import { configManager } from "../utils/config";
-import { JiraIssue, JiraResponse } from "../types";
+import { configManager } from "@utils/config";
+import type { JiraIssue, JiraResponse } from "types/index";
 
 export class JiraService {
   private api: typeof ky;

@@ -1,7 +1,7 @@
 import os from "os";
 import path from "path";
 import fs from "fs/promises";
-import type { Config } from "../types";
+import type { Config } from "@type/index";
 
 class ConfigManager {
   private configPath: string;
