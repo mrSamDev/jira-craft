@@ -32,6 +32,9 @@ class ConfigManager {
             token: "",
             username: "",
           },
+          git: {
+            projects: [],
+          },
         };
       }
       throw error;

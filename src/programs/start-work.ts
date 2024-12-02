@@ -1,11 +1,9 @@
 import { select, input, confirm } from "@inquirer/prompts";
 import { JiraService } from "../services/jira-service";
 import { GitService } from "../services/git-service";
+import { configManager } from "../utils/config.js";
 import chalk from "chalk";
 import logger from "../utils/log";
-
-const log = logger.log;
-const error = console.error;
 
 const BRANCH_TYPES = {
   Story: "feature",
@@ -16,6 +14,24 @@ const BRANCH_TYPES = {
   Hotfix: "hotfix",
 } as const;
 
+async function selectProject(projects: any[]) {
+  if (projects.length === 0) {
+    return null;
+  }
+
+  if (projects.length === 1) {
+    return projects[0];
+  }
+
+  return await select({
+    message: "Select project:",
+    choices: projects.map((project, index) => ({
+      name: `${project.prefix || "Default"} (${project.branchNameStyle})`,
+      value: project,
+    })),
+  });
+}
+
 export async function startWork(ticketId?: string): Promise<void> {
   try {
     const gitService = new GitService();
@@ -25,6 +41,10 @@ export async function startWork(ticketId?: string): Promise<void> {
     }
 
     const jiraService = await JiraService.initialize();
+    const config = await configManager.load();
+
+    // Get project configuration
+    const project = await selectProject(config.git?.projects || []);
 
     if (!ticketId) {
       ticketId = await input({
@@ -33,14 +53,15 @@ export async function startWork(ticketId?: string): Promise<void> {
       });
     }
 
-    log("\nFetching JIRA issue details...");
+    logger.info("\nFetching JIRA issue details...");
     const issue = await jiraService.getIssue(ticketId);
 
     let defaultType = BRANCH_TYPES[issue.issueType as keyof typeof BRANCH_TYPES] || "task";
 
-    log("\nJIRA Issue Details:");
-    log(`Title: ${issue.title}`);
-    log(`Type: ${issue.issueType}`);
+    logger.info("\nJIRA Issue Details:");
+    logger.log(`Title    : ${issue.title}`);
+    logger.log(`Type     : ${issue.issueType}`);
+    logger.log(`Priority : ${issue.priority}`);
 
     const confirmed = await confirm({
       message: "Use these details for branch creation?",
@@ -64,10 +85,12 @@ export async function startWork(ticketId?: string): Promise<void> {
       });
     }
 
-    const branchName = GitService.formatBranchName({
+    const branchName = gitService.formatBranchName({
+      prefix: project?.prefix,
       type: defaultType,
       ticketId,
       title: issue.title,
+      style: project?.branchNameStyle,
     });
 
     await gitService.createAndCheckoutBranch(branchName);
@@ -75,10 +98,10 @@ export async function startWork(ticketId?: string): Promise<void> {
     logger.success(`\n✓ Successfully created and checked out branch: ${chalk.bold(branchName)}`);
 
     // Display next steps
-    log("\nNext steps:");
-    log("1. Start making your changes");
-    log(`2. Push your branch: ${chalk.cyan(`git push -u origin ${branchName}`)}`);
-    log(`3. Create a pull request when ready\n`);
+    logger.info("\nNext steps:");
+    logger.log("1. Start making your changes");
+    logger.log(`2. Push your branch: ${chalk.cyan(`git push -u origin ${branchName}`)}`);
+    logger.log(`3. Create a pull request when ready\n`);
   } catch (e: any) {
     logger.error(`\n✗ Error: ${e.message}`);
     process.exit(1);

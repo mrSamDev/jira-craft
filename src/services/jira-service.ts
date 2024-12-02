@@ -39,6 +39,7 @@ export class JiraService {
         title: response.fields.summary,
         description: response.fields.description,
         issueType: response.fields.issuetype.name.toLowerCase(),
+        priority: response.fields.priority.name,
       };
     } catch (error: any) {
       if (error.response) {
