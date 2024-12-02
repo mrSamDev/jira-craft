@@ -4,12 +4,36 @@ Simple CLI tool that creates Git branches from JIRA tickets. Automatically fetch
 
 ## Installation
 
+Choose your preferred package manager:
+
+### npm
+
 ```bash
 # Clone and install dependencies
 npm install
 
 # Make command available globally
 npm link
+```
+
+### yarn
+
+```bash
+# Clone and install dependencies
+yarn install
+
+# Make command available globally
+yarn link
+```
+
+### pnpm
+
+```bash
+# Clone and install dependencies
+pnpm install
+
+# Make command available globally
+pnpm link -g
 ```
 
 ## Setup
