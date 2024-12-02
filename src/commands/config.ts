@@ -1,5 +1,6 @@
 import { select, input } from "@inquirer/prompts";
 import { configManager } from "../utils/config";
+import logger from "../utils/log";
 
 async function configureJira() {
   const jiraConfig = {
@@ -15,7 +16,7 @@ async function configureJira() {
     }),
   };
   await configManager.updateSection("jira", jiraConfig);
-  console.log("JIRA configuration updated successfully!");
+  logger.info("JIRA configuration updated successfully!");
 }
 
 async function configureAll() {
@@ -24,8 +25,6 @@ async function configureAll() {
       message: "What would you like to configure?",
       choices: [
         { name: "JIRA Settings", value: "jira" },
-        { name: "Git Project", value: "git" },
-        { name: "Preferences", value: "preferences" },
         { name: "Exit", value: "exit" },
       ],
     });

@@ -2,8 +2,9 @@ import { select, input, confirm } from "@inquirer/prompts";
 import { JiraService } from "../services/jira-service";
 import { GitService } from "../services/git-service";
 import chalk from "chalk";
+import logger from "../utils/log";
 
-const log = console.log;
+const log = logger.log;
 const error = console.error;
 
 const BRANCH_TYPES = {
@@ -32,12 +33,12 @@ export async function startWork(ticketId?: string): Promise<void> {
       });
     }
 
-    log(chalk.blue("\nFetching JIRA issue details..."));
+    log("\nFetching JIRA issue details...");
     const issue = await jiraService.getIssue(ticketId);
 
     let defaultType = BRANCH_TYPES[issue.issueType as keyof typeof BRANCH_TYPES] || "task";
 
-    log(chalk.cyan("\nJIRA Issue Details:"));
+    log("\nJIRA Issue Details:");
     log(`Title: ${issue.title}`);
     log(`Type: ${issue.issueType}`);
 
@@ -71,15 +72,15 @@ export async function startWork(ticketId?: string): Promise<void> {
 
     await gitService.createAndCheckoutBranch(branchName);
 
-    log(chalk.green(`\n✓ Successfully created and checked out branch: ${chalk.bold(branchName)}`));
+    logger.success(`\n✓ Successfully created and checked out branch: ${chalk.bold(branchName)}`);
 
     // Display next steps
-    log(chalk.blue("\nNext steps:"));
+    log("\nNext steps:");
     log("1. Start making your changes");
     log(`2. Push your branch: ${chalk.cyan(`git push -u origin ${branchName}`)}`);
     log(`3. Create a pull request when ready\n`);
   } catch (e: any) {
-    error(chalk.red(`\n✗ Error: ${e.message}`));
+    logger.error(`\n✗ Error: ${e.message}`);
     process.exit(1);
   }
 }

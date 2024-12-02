@@ -11,9 +11,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/fix-imports.js",
     "start": "ts-node src/cli.ts",
-    "dev": "node --loader ts-node/esm src/cli.ts",
+    "dev": "ts-node --esm src/cli.ts",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "prepare": "npm run build"

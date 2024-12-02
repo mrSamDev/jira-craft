@@ -1,17 +1,17 @@
 import { configManager } from "../utils/config";
-import chalk from "chalk";
+import logger from "../utils/log";
 
 export async function displayOptions(): Promise<void> {
   const config = await configManager.load();
 
-  console.log("\n" + chalk.blue.bold("📋 Current Configuration:\n"));
+  logger.info("\n" + "📋 Current Configuration:\n");
 
-  console.log(chalk.yellow.bold("JIRA Settings:"));
-  console.log(`Base URL: ${config.jira.baseUrl || "Not configured"}`);
-  console.log(`Username: ${config.jira.username || "Not configured"}`);
-  console.log(`Token: ${config.jira.token ? "********" : "Not configured"}\n`);
+  logger.info("JIRA Settings:");
+  logger.info(`Base URL: ${config.jira.baseUrl || "Not configured"}`);
+  logger.info(`Username: ${config.jira.username || "Not configured"}`);
+  logger.info(`Token: ${config.jira.token ? "********" : "Not configured"}\n`);
 
-  console.log(chalk.blue.bold("🛠️  Available Commands:\n"));
+  logger.info("🛠️  Available Commands:\n");
 
   const commands = [
     {
@@ -27,10 +27,9 @@ export async function displayOptions(): Promise<void> {
   ];
 
   commands.forEach((cmd) => {
-    console.log(chalk.cyan.bold(`${cmd.name}:`));
-    console.log(`Description: ${cmd.description}`);
-    console.log("Options:");
+    logger.info(`${cmd.name}:`);
+    logger.log(`Description: ${cmd.description}`);
+    logger.log("Options:");
     cmd.options.forEach((opt) => console.log(`  - ${opt}`));
-    console.log();
   });
 }
