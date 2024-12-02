@@ -17,12 +17,12 @@ export async function displayOptions(): Promise<void> {
     {
       name: "config",
       description: "Configure CLI settings",
-      options: ["JIRA Settings", "Git Projects", "Preferences"],
+      options: ["JIRA Settings"],
     },
     {
       name: "start-work",
       description: "Start work on a JIRA ticket",
-      options: ["Creates feature branch", "Updates JIRA status"],
+      options: ["Creates feature branch"],
     },
   ];
 
