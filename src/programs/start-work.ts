@@ -1,6 +1,6 @@
 import { select, input, confirm } from "@inquirer/prompts";
-import { JiraService } from "@services/jira-service";
-import { GitService } from "@services/git-service";
+import { JiraService } from "../services/jira-service";
+import { GitService } from "../services/git-service";
 import chalk from "chalk";
 
 const log = console.log;

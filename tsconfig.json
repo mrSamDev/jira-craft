@@ -9,14 +9,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "src",
-    "paths": {
-      "@commands/*": ["commands/*"],
-      "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"],
-      "@type/*": ["types/*"],
-      "@programs/*": ["programs/*"]
-    }
+    "baseUrl": "src"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

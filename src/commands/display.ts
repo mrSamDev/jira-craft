@@ -1,4 +1,4 @@
-import { configManager } from "@utils/config";
+import { configManager } from "../utils/config";
 import chalk from "chalk";
 
 export async function displayOptions(): Promise<void> {

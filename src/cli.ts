@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { select, input } from "@inquirer/prompts";
-import { configureAll } from "@commands/config";
-import { displayOptions } from "@commands/display";
-import { startWork } from "@programs/start-work";
+import { configureAll } from "./commands/config";
+import { displayOptions } from "./commands/display";
+import { startWork } from "./programs/start-work";
 
 const program = new Command();
 

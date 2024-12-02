@@ -1,5 +1,5 @@
 import ky from "ky";
-import { configManager } from "@utils/config";
+import { configManager } from "../utils/config";
 import type { JiraIssue, JiraResponse } from "types/index";
 
 export class JiraService {
