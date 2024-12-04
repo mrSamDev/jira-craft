@@ -28,6 +28,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Check package version matches tag
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "Package version ($PKG_VERSION) does not match tag version ($TAG_VERSION)"
+            exit 1
+          fi
+
       - name: Build
         run: pnpm run build
 

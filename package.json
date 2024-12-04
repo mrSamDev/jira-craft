@@ -1,6 +1,6 @@
 {
   "name": "jira-craft",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Development workflow CLI for jira and git",
   "type": "module",
   "main": "dist/cli.js",
